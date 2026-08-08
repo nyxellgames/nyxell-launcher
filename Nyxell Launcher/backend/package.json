@@ -31,6 +31,11 @@
     "directories": {
       "output": "dist"
     },
+    "files": [
+      "**/*",
+      "../frontend/**/*",
+      "../components/**/*"
+    ],
     "win": {
       "target": "nsis",
       "icon": "../frontend/assets/nyxell.png"
