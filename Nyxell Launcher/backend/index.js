@@ -12,7 +12,6 @@ const BRAND_NAME = "Nyxell Games";
 let mainWindow = null;
 let consoleWindow = null;
 
-// Configuración de autoUpdater
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
 
