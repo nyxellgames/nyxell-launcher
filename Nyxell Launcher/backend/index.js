@@ -73,8 +73,9 @@ function createWindow() {
         }
     });
 
-    // Carga de ruta relativa corregida para la app compilada (.asar)
-    mainWindow.loadFile(path.join(__dirname, '../frontend/index.html'));
+    // Carga de ruta adaptada para empaquetado asar y entorno de desarrollo
+    const indexPath = path.join(__dirname, '../frontend/index.html');
+    mainWindow.loadFile(indexPath);
 }
 
 function createConsoleWindow() {
@@ -148,7 +149,7 @@ ipcMain.on('clean-cache', (event) => {
     event.sender.send('cache-cleaned-success');
 });
 
-// EVENTOS AUTO-UPDATER INTEGRADOS AL SPLASH
+// EVENTOS DE AUTO-UPDATER
 ipcMain.on('restart-app-for-update', () => {
     autoUpdater.quitAndInstall();
 });
