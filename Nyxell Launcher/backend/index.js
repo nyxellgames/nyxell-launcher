@@ -51,6 +51,12 @@ function sendStatus(message, progress = null) {
     }
 }
 
+function sendSplashUpdate(status, percent, isError = false) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('updater-splash-status', { status, percent, isError });
+    }
+}
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1100,
@@ -67,6 +73,7 @@ function createWindow() {
         }
     });
 
+    // Carga de ruta relativa corregida para la app compilada (.asar)
     mainWindow.loadFile(path.join(__dirname, '../frontend/index.html'));
 }
 
@@ -141,31 +148,43 @@ ipcMain.on('clean-cache', (event) => {
     event.sender.send('cache-cleaned-success');
 });
 
-// EVENTOS DE AUTO-UPDATER
+// EVENTOS AUTO-UPDATER INTEGRADOS AL SPLASH
 ipcMain.on('restart-app-for-update', () => {
     autoUpdater.quitAndInstall();
 });
 
-autoUpdater.on('checking-for-update', () => {
+ipcMain.on('check-for-updates', () => {
+    sendSplashUpdate('Buscando actualizaciones...', 10);
     sendLog('INFO', 'Comprobando si existen actualizaciones de Nyxell Launcher...');
+    autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+        sendLog('WARN', `Error iniciando búsqueda de actualización: ${err.message}`);
+        sendSplashUpdate('No se pudo verificar actualizaciones.', 100, true);
+    });
+});
+
+autoUpdater.on('checking-for-update', () => {
+    sendSplashUpdate('Buscando actualizaciones...', 30);
 });
 
 autoUpdater.on('update-available', (info) => {
-    sendLog('SUCCESS', `¡Nueva versión v${info.version} detectada! Descargando en segundo plano...`);
-    sendStatus(`Descargando actualización v${info.version}...`, 0);
+    sendLog('SUCCESS', `¡Nueva versión v${info.version} detectada! Descargando...`);
+    sendSplashUpdate(`Nueva versión v${info.version} encontrada. Descargando...`, 0);
 });
 
 autoUpdater.on('update-not-available', () => {
     sendLog('INFO', 'El launcher está actualizado a la versión más reciente.');
+    sendSplashUpdate('¡Launcher actualizado a la última versión!', 100);
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
     const percent = Math.round(progressObj.percent) || 0;
+    sendSplashUpdate(`Actualizando launcher: ${percent}%`, percent);
     sendStatus(`Actualizando launcher: ${percent}%`, percent);
 });
 
 autoUpdater.on('update-downloaded', () => {
     sendLog('SUCCESS', 'Actualización descargada y lista para instalar.');
+    sendSplashUpdate('Actualización lista. Reiniciando...', 100);
     if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('update-downloaded');
     }
@@ -173,15 +192,11 @@ autoUpdater.on('update-downloaded', () => {
 
 autoUpdater.on('error', (err) => {
     sendLog('WARN', `Verificación de actualizaciones omitida: ${err.message}`);
+    sendSplashUpdate('Omitiendo búsqueda de actualizaciones...', 100, true);
 });
 
 app.whenReady().then(() => {
     createWindow();
-
-    // Comprobar actualizaciones automáticamente a los 3 segundos de iniciar
-    setTimeout(() => {
-        autoUpdater.checkForUpdatesAndNotify().catch(() => {});
-    }, 3000);
 });
 
 app.on('window-all-closed', () => {
