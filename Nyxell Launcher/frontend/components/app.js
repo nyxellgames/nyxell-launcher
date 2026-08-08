@@ -13,32 +13,60 @@ document.addEventListener('DOMContentLoaded', () => {
     initElectronLauncher();
 });
 
+function hideSplashScreen() {
+    const splash = document.getElementById('splash-screen');
+    if (splash && splash.style.display !== 'none') {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.style.display = 'none';
+        }, 400);
+    }
+}
 
 function initSplashScreen() {
-    const splash = document.getElementById('splash-screen');
     const progressBar = document.getElementById('splash-progress');
     const statusText = document.getElementById('splash-status');
 
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += 25;
-        if (progressBar) progressBar.style.width = `${progress}%`;
+    if (typeof require !== 'undefined') {
+        const { ipcRenderer } = require('electron');
 
-        if (progress === 50 && statusText) statusText.textContent = "Obteniendo lista de versiones...";
-        if (progress === 75 && statusText) statusText.textContent = "Cargando configuraciones de Nyxell...";
+        ipcRenderer.on('updater-splash-status', (event, { status, percent }) => {
+            if (statusText) statusText.textContent = status;
+            if (progressBar && percent !== null && percent !== undefined) {
+                progressBar.style.width = `${percent}%`;
+            }
 
-        if (progress >= 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                if (splash) {
-                    splash.style.opacity = '0';
-                    setTimeout(() => splash.style.display = 'none', 400);
-                }
-            }, 200);
-        }
-    }, 150);
+            if (percent >= 100) {
+                setTimeout(() => {
+                    hideSplashScreen();
+                }, 800);
+            }
+        });
+
+        if (statusText) statusText.textContent = "Buscando actualizaciones...";
+        if (progressBar) progressBar.style.width = "10%";
+        ipcRenderer.send('check-for-updates');
+
+        setTimeout(() => {
+            hideSplashScreen();
+        }, 8000);
+
+    } else {
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 25;
+            if (progressBar) progressBar.style.width = `${progress}%`;
+
+            if (progress === 50 && statusText) statusText.textContent = "Obteniendo lista de versiones...";
+            if (progress === 75 && statusText) statusText.textContent = "Cargando configuraciones de Nyxell...";
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => hideSplashScreen(), 200);
+            }
+        }, 150);
+    }
 }
-
 
 function initNavigation() {
     const navItems = document.querySelectorAll('.nav-item[data-tab]');
@@ -58,7 +86,6 @@ function initNavigation() {
     });
 }
 
-
 function initSettingsSubtabs() {
     const subtabBtns = document.querySelectorAll('.subtab-btn');
     const subtabContents = document.querySelectorAll('.subtab-content');
@@ -76,7 +103,6 @@ function initSettingsSubtabs() {
     });
 }
 
-
 function setRealDefaultPaths() {
     const gamePathInput = document.getElementById('game-path');
     if (gamePathInput && !localStorage.getItem('nyxell_game_path')) {
@@ -87,7 +113,6 @@ function setRealDefaultPaths() {
         gamePathInput.value = `${appData}\\.nyxell_mc`;
     }
 }
-
 
 async function loadMinecraftVersions() {
     const versionSelect = document.getElementById('version-select');
@@ -122,7 +147,6 @@ async function loadMinecraftVersions() {
         }
     }
 }
-
 
 async function loadSavedSettings() {
     const username = localStorage.getItem('nyxell_username');
@@ -209,7 +233,6 @@ function setupLocalStorageListeners() {
     }
 }
 
-
 function initConsoleButton() {
     const openConsoleBtn = document.getElementById('open-console-btn');
     if (openConsoleBtn && typeof require !== 'undefined') {
@@ -219,7 +242,6 @@ function initConsoleButton() {
         });
     }
 }
-
 
 function initAvatarLoader() {
     const usernameInput = document.getElementById('username');
@@ -242,7 +264,6 @@ function initAvatarLoader() {
         }, 500);
     });
 }
-
 
 function initUtilityButtons() {
     if (typeof require === 'undefined') return;
@@ -277,7 +298,6 @@ function initUtilityButtons() {
     });
 }
 
-
 function initAutoUpdaterListener() {
     if (typeof require === 'undefined') return;
     const { ipcRenderer } = require('electron');
@@ -288,7 +308,6 @@ function initAutoUpdaterListener() {
         }
     });
 }
-
 
 function initElectronLauncher() {
     if (typeof require !== 'undefined') {
