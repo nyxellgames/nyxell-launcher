@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Logs Nyxell Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+        body {
+            background-color: #0c0d12;
+            color: #d1d5db;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
+        .header h3 {
+            font-size: 14px;
+            color: #1e90ff;
+            letter-spacing: 0.5px;
+        }
+        .console-box {
+            flex: 1;
+            background: #06070a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        .log-entry {
+            margin: 0;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>💻 logs Nyxell Launcher</h3>
+    </div>
+    <div id="console-output" class="console-box">
+        <p class="log-entry" style="color: #8a8d9b;">logs Nyxell Launcher, esperando acciones...</p>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+        const consoleOutput = document.getElementById('console-output');
+
+        ipcRenderer.on('app-log', (event, { type, text, timestamp }) => {
+            const p = document.createElement('p');
+            p.className = 'log-entry';
+
+            if (type === 'ERROR') p.style.color = '#ff5555';
+            else if (type === 'SUCCESS') p.style.color = '#2ed573';
+            else if (type === 'WARN') p.style.color = '#ffa500';
+            else if (type === 'GAME') p.style.color = '#70a1ff';
+            else p.style.color = '#cccccc';
+
+            p.textContent = `[${timestamp}] [${type}] ${text}`;
+            consoleOutput.appendChild(p);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        });
+    </script>
+</body>
+</html>
