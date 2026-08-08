@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyxell Launcher</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <!-- SplashScreen -->
+    <div id="splash-screen" class="splash-container">
+        <div class="splash-card">
+            <img src="assets/nyxell.png" alt="Nyxell Logo" class="splash-logo">
+            <h2>NYXELL LAUNCHER</h2>
+            <div class="progress-bar-container">
+                <div id="splash-progress" class="progress-bar"></div>
+            </div>
+            <p id="splash-status">Iniciando entorno de Nyxell Games...</p>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="assets/nyxell.png" alt="Nyxell Logo" class="brand-logo">
+                <div class="brand-text">
+                    <h2>NYXELL</h2>
+                    <span>BY NYXELL GAMES</span>
+                </div>
+            </div>
+
+            <nav class="menu">
+                <button class="nav-item active" data-tab="tab-inicio">
+                    <span class="icon">🏠</span> Inicio
+                </button>
+                <button class="nav-item hack-tab" data-tab="tab-hacks">
+                    <span class="icon">⚡</span> Nyxell Hacks
+                </button>
+                <button class="nav-item" data-tab="tab-ajustes">
+                    <span class="icon">⚙️</span> Ajustes
+                </button>
+                <button class="nav-item" id="open-console-btn">
+                    <span class="icon">💻</span> Consola Logs
+                </button>
+                <a href="https://nyxell.vercel.app" target="_blank" class="nav-item web-link">
+                    <span class="icon">🌐</span> Nyxell Web
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p class="status-online">● Servidores activos</p>
+                <span class="version-tag">v1.0.0</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="user-badge">
+                    <img id="user-avatar" src="https://mc-heads.net/avatar/Player/32" alt="Avatar" style="width: 24px; height: 24px; border-radius: 4px; object-fit: contain;">
+                    <input type="text" id="username" placeholder="Tu Usuario No-Premium" value="Player">
+                </div>
+            </header>
+
+            
+            <section id="tab-inicio" class="tab-content active">
+                <div class="hero-banner">
+                    <h1>BIENVENIDO A NYXELL</h1>
+                    <p>Selecciona tu versión favorita y entra a jugar al instante.</p>
+                </div>
+            </section>
+
+            
+            <section id="tab-hacks" class="tab-content">
+                <div class="glass-panel">
+                    <h2>⚡ NYXELL CLIENT (HACKS DE CHILL)</h2>
+                    <p class="panel-desc">Módulo opcional con interfaz oscura y múltiples funciones activables.</p>
+                    
+                    <div class="hacks-grid">
+                        <div class="hack-card">
+                            <label for="hack-theme-select">Estilo de GUI Default:</label>
+                            <select id="hack-theme-select">
+                                <option value="dark-black">Negro Predeterminado (Default)</option>
+                                <option value="neon-purple">Violeta Neón</option>
+                                <option value="cyan-dark">Cian Nocturno</option>
+                            </select>
+                        </div>
+                        <div class="hack-card">
+                            <label>Atajo ClickGUI:</label>
+                            <input type="text" value="Right Shift" readonly>
+                        </div>
+                    </div>
+
+                    
+                    <div class="hacks-versions-container" style="margin-top: 15px;">
+                        <details class="versions-dropdown">
+                            <summary class="btn-blue-versions" style="background-color: #0066ff; color: #ffffff; padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: inline-block; user-select: none;">
+                                Versiones en que funciona
+                            </summary>
+                            <div class="versions-list" style="margin-top: 10px; background: rgba(0, 0, 0, 0.4); padding: 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; text-align: center;">
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.14.4</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.15.2</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.16.5</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.17.1</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.18.1</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.18.2</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.19</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.19.2</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.19.3</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.19.4</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.20.1</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.20.2</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.20.4</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.20.6</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.21.2</span>
+                                <span class="version-badge" style="background: rgba(0, 102, 255, 0.2); color: #80b3ff; border: 1px solid #0066ff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">1.21.2 - 1.21.3</span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+           
+           <section id="tab-ajustes" class="tab-content">
+                <div class="glass-panel">
+                    <h2>⚙️ AJUSTES DEL LAUNCHER</h2>
+                    
+                    <div class="settings-subnav">
+                        <button class="subtab-btn active" data-subtab="subtab-basico">Básicos</button>
+                        <button class="subtab-btn" data-subtab="subtab-avanzado">Avanzados</button>
+                    </div>
+
+                    <div id="subtab-basico" class="subtab-content active">
+                        <div class="settings-group">
+                            <label for="skin-url">URL de Skin / Capa (No-Premium Custom Skin):</label>
+                            <input type="text" id="skin-url" placeholder="https://ejemplo.com/mi-skin.png">
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="ram-allocation">Memoria RAM Asignada:</label>
+                            <select id="ram-allocation">
+                                <option value="2G">2 GB</option>
+                                <option value="4G" selected>4 GB (Recomendado)</option>
+                                <option value="6G">6 GB</option>
+                                <option value="8G">8 GB</option>
+                                <option value="12G">12 GB</option>
+                            </select>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="resolution-select">Resolución de Pantalla:</label>
+                            <select id="resolution-select">
+                                <option value="1280x720">1280 x 720 (HD)</option>
+                                <option value="1920x1080" selected>1920 x 1080 (Full HD)</option>
+                                <option value="fullscreen">Pantalla Completa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="subtab-avanzado" class="subtab-content">
+                        <div class="settings-group">
+                            <label for="game-path">Ruta de Instalación de Minecraft:</label>
+                            <input type="text" id="game-path" readonly>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="jvm-args">Argumentos JVM Personalizados:</label>
+                            <input type="text" id="jvm-args" placeholder="-XX:+UseG1GC -Dsun.rmi.dgc.client.gcInterval=3600000">
+                        </div>
+
+                        <div class="settings-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="close-on-launch" checked>
+                                <span>Cerrar el launcher al iniciar el juego</span>
+                            </label>
+                        </div>
+
+                        <!-- Botones de utilidades (Carpetas y Limpieza) -->
+                        <div class="settings-group" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button id="open-mods-folder-btn" class="btn-secondary" style="background: #2ed573;">
+                                📁 Abrir Carpeta Mods (.nyxell_hacks)
+                            </button>
+                            <button id="open-root-folder-btn" class="btn-secondary" style="background: #1e90ff;">
+                                📁 Abrir Carpeta Principal (.nyxell_mc)
+                            </button>
+                            <button id="clean-cache-btn" class="btn-secondary" style="background: #ff4757;">
+                                🧹 Limpiar Caché y Temporales
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="save-settings-btn" class="btn-secondary">Guardar Cambios</button>
+                </div>
+            </section>
+
+            
+            <section class="bottom-launch-bar">
+                <div class="launch-card">
+                    <div class="selector-box">
+                        <label for="version-select">VERSIÓN DE MINECRAFT</label>
+                        <select id="version-select">
+                            <option value="">Cargando versiones...</option>
+                        </select>
+                    </div>
+
+                    <div class="toggle-box">
+                        <label class="switch">
+                            <input type="checkbox" id="hack-mode">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="toggle-label">Modo Nyxell Hacks</span>
+                    </div>
+
+                    <div class="launch-btn-container">
+                        <button id="play-btn" class="btn-play">
+                            <span>JUGAR</span>
+                        </button>
+                        <span id="status-text"></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="components/app.js"></script>
+</body>
+</html>
