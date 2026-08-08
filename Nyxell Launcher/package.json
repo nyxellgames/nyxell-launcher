@@ -1,0 +1,43 @@
+{
+  "name": "nyxell-launcher",
+  "version": "1.0.0",
+  "description": "Nyxell Launcher por Nyxell Games",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "dev": "electron .",
+    "build": "electron-builder"
+  },
+  "author": "Nyxell Games",
+  "license": "ISC",
+  "dependencies": {
+    "electron-updater": "^6.3.9",
+    "minecraft-launcher-core": "^3.10.0"
+  },
+  "devDependencies": {
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.nyxellgames.launcher",
+    "productName": "Nyxell Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "backend/**/*",
+      "frontend/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "frontend/assets/nyxell.png"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "nyxellgames",
+        "repo": "nyxell-launcher"
+      }
+    ]
+  }
+}
